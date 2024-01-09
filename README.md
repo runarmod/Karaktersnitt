@@ -4,9 +4,11 @@
 
 Dette er en firefox utvidelse som automatisk regner ut karaktersnittet ditt i studentweb. Det er mulig å velge hvilke emner som skal regnes med i snittet. Utvidelsen er laget for å gjøre det enklere å holde oversikt over karaktersnittet sitt, og for å slippe å regne det ut manuelt. Utvidelsen er laget for å være enkel å bruke, og for å ikke lagre noen data om brukeren.
 
+![Eksempel karakterer](assets/image.png)
+
 ## Installasjon
 
-Last ned utvidelsen i firefox ved å gå til [utvidelsessiden](https://addons.mozilla.org/en-US/firefox/addon/karaktersnitt-for-studentweb/). Trykk på "Add to Firefox" og følg instruksjonene. Utvidelsen vil nå være tilgjengelig i firefox.
+Last ned utvidelsen i firefox ved å gå til [utvidelsessiden](https://addons.mozilla.org/nb-NO/firefox/addon/karaktersnitt-for-studentweb/). Trykk på "Add to Firefox" og følg instruksjonene. Utvidelsen vil nå være tilgjengelig i firefox.
 
 ## Bruk
 
