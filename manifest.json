@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Karaktersnitt",
+  "version": "1.0",
+
+  "description": "Regner automatisk ut karaktersnitt på studentweb.",
+  "homepage_url": "https://github.com/runarmod/Karaktersnitt",
+
+  "content_scripts": [
+    {
+      "matches": ["*://fsweb.no/studentweb/resultater.jsf*"],
+      "js": ["src/karaktersnitt_kalkulator.js"]
+    }
+  ]
+}
