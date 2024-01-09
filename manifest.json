@@ -1,10 +1,20 @@
 {
   "manifest_version": 2,
-  "name": "Karaktersnitt",
+  "name": "Karaktersnitt for Studentweb",
+  "short_name": "Karaktersnitt",
   "version": "0.0.0",
-
-  "description": "Regner automatisk ut karaktersnitt på studentweb.",
+  "description": "Regner automatisk ut karaktersnitt på Studentweb.",
   "homepage_url": "https://github.com/runarmod/Karaktersnitt",
+
+  "developer": {
+    "name": "Runar Saur Modahl",
+    "url": "https://runarmod.no"
+  },
+
+  "icons": {
+    "48": "assets/icon.png",
+    "96": "assets/icon@2x.png"
+  },
 
   "content_scripts": [
     {
