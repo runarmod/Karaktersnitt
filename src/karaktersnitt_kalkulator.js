@@ -4,16 +4,23 @@
  * The script is only executed on the "Mine resultater" page.
  */
 
+const table = document.getElementsByTagName("table")[0];
+const allRows = document.getElementsByTagName("tr");
+const relevantRows = [].slice.call(allRows).filter(rowIsInteresting);
+
 document.getElementById("mineResultaterTittel").innerHTML = `
 <details>
-    <summary>Resultater - klikk for å se snitt</summary>
-    Snittet ditt er <b id="snitt">BLANK</b>.
+<summary>Resultater - klikk for å se snitt</summary>
+<h2>
+Snittet ditt er <b id="snitt">BLANK</b>.
+<br />
+Du har <b id="antallEmner">BLANK</b> <span id="emnerOrd">emner</span> som teller i snittet.
+</h2>
 </details>`;
 
-let snitt = document.getElementById("snitt");
-let table = document.getElementsByTagName("table")[0];
-let allRows = document.getElementsByTagName("tr");
-let relevantRows = [].slice.call(allRows).filter(rowIsInteresting);
+const snittElement = document.getElementById("snitt");
+const antallEmnerElement = document.getElementById("antallEmner");
+const emnerOrdElement = document.getElementById("emnerOrd");
 
 createCheckboxes();
 
@@ -22,9 +29,9 @@ createCheckboxes();
  * listener to update the average when checkbox is changed.
  */
 function createCheckboxes() {
-  for (let row of relevantRows) {
-    let firstColoumn = row.children[0];
-    let checkbox = document.createElement("input");
+  for (const row of relevantRows) {
+    const firstColoumn = row.children[0];
+    const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = true;
     checkbox.addEventListener("change", updateSnitt);
@@ -36,13 +43,13 @@ function createCheckboxes() {
  * Updates the average grade based on the selected rows.
  */
 function updateSnitt() {
-  let checkedRows = relevantRows.filter(
+  const checkedRows = relevantRows.filter(
     (row) =>
       getFirstElementInsideElement(row.children[0], "input", "tag").checked
   );
 
   let sum = 0;
-  for (let row of checkedRows) {
+  for (const row of checkedRows) {
     const grade = getFirstElementInsideElement(
       row.children[row.children.length - 2],
       "infoLinje",
@@ -52,10 +59,18 @@ function updateSnitt() {
     sum += 5 - "ABCDEF".indexOf(grade);
   }
   if (sum == 0) {
-    snitt.innerText = "[Ingen emner valgt]";
+    snittElement.innerText = "[Ingen emner valgt]";
   } else {
-    snitt.innerText = (sum / checkedRows.length).toFixed(2);
+    snittElement.innerText = (sum / checkedRows.length).toFixed(2);
   }
+
+  if (checkedRows.length == 1) {
+    emnerOrdElement.innerText = "emne";
+  } else {
+    emnerOrdElement.innerText = "emner";
+  }
+
+  antallEmnerElement.innerText = checkedRows.length;
 }
 
 updateSnitt();
@@ -78,8 +93,8 @@ function getFirstElementInsideElement(element, name, type) {
     children = document.getElementsByClassName(name);
   }
 
-  for (let child of children) {
-    let parent = child ? child.parentNode : {};
+  for (const child of children) {
+    const parent = child ? child.parentNode : {};
     if (parent === element) {
       return child;
     }
