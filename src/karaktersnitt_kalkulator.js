@@ -6,7 +6,7 @@
 
 document.getElementById("mineResultaterTittel").innerHTML = `
 <details>
-    <summary>Resultater - klikk for Ã¥ se snitt</summary>
+    <summary>Resultater - klikk for å se snitt</summary>
     Snittet ditt er <b id="snitt">BLANK</b>!
 </details>`;
 
