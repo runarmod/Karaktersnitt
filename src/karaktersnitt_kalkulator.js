@@ -4,9 +4,9 @@
  * The script is only executed on the "Mine resultater" page.
  */
 
-const table = document.getElementsByTagName("table")[0];
 const allRows = document.getElementsByTagName("tr");
-const relevantRows = [].slice.call(allRows).filter(rowIsInteresting);
+
+let checkedSubjects = [];
 
 document.getElementById("mineResultaterTittel").innerHTML = `
 <details>
@@ -22,19 +22,70 @@ const snittElement = document.getElementById("snitt");
 const antallEmnerElement = document.getElementById("antallEmner");
 const emnerOrdElement = document.getElementById("emnerOrd");
 
-createCheckboxes();
+// Let the page load before adding the checkboxes
+const changeButtonsTds = getElementsInsideElement(
+  document.querySelector(".radioknapper").children[0].children[0],
+  "td",
+  "tag"
+);
+
+const changeButtonsLabels = Array.from(changeButtonsTds).map((td) =>
+  getFirstElementInsideElement(td, "label", "tag")
+);
+
+for (const changeButton of changeButtonsLabels) {
+  changeButton.addEventListener("click", () => {
+    setTimeout(() => {
+      createCheckboxes(checkedSubjects);
+    }, 150);
+  });
+}
+
+createAllCheckboxes();
 
 /**
  * Creates checkboxes for each relevant row and attaches event
  * listener to update the average when checkbox is changed.
  */
-function createCheckboxes() {
-  for (const row of relevantRows) {
+function createAllCheckboxes() {
+  for (const row of allRows) {
+    if (!rowIsInteresting(row)) {
+      continue;
+    }
     const firstColoumn = row.children[0];
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = true;
     checkbox.addEventListener("change", updateSnitt);
+    firstColoumn.appendChild(checkbox);
+
+    const subject = row.children[1].children[1].children[0].innerText;
+    checkedSubjects.push(subject);
+  }
+}
+
+/**
+ * Creates checkboxes for each subject in the given array and attaches event
+ * listener to update the average when checkbox is changed.
+ *
+ * @param {string[]} subjects The subjects to create checkboxes for.
+ * @returns {void}
+ */
+function createCheckboxes(subjects) {
+  for (const row of allRows) {
+    if (!rowIsInteresting(row)) {
+      continue;
+    }
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+
+    const subject = row.children[1].children[1].children[0].innerText;
+    checkbox.checked = subjects.includes(subject);
+
+    checkbox.addEventListener("change", updateSnitt);
+
+    const firstColoumn = row.children[0];
     firstColoumn.appendChild(checkbox);
   }
 }
@@ -43,10 +94,23 @@ function createCheckboxes() {
  * Updates the average grade based on the selected rows.
  */
 function updateSnitt() {
-  const checkedRows = relevantRows.filter(
-    (row) =>
-      getFirstElementInsideElement(row.children[0], "input", "tag").checked
-  );
+  const checkedRows = [];
+  checkedSubjects = [];
+  for (const row of allRows) {
+    if (!rowIsInteresting(row)) {
+      continue;
+    }
+    const checkbox = getFirstElementInsideElement(
+      row.children[0],
+      "input",
+      "tag"
+    );
+
+    if (checkbox.checked) {
+      checkedRows.push(row);
+      checkedSubjects.push(row.children[1].children[1].children[0].innerText);
+    }
+  }
 
   let sum = 0;
   for (const row of checkedRows) {
@@ -58,16 +122,16 @@ function updateSnitt() {
 
     sum += 5 - "ABCDEF".indexOf(grade);
   }
+
   if (sum == 0) {
     snittElement.innerText = "[Ingen emner valgt]";
   } else {
     snittElement.innerText = (sum / checkedRows.length).toFixed(2);
   }
 
+  emnerOrdElement.innerText = "emner";
   if (checkedRows.length == 1) {
     emnerOrdElement.innerText = "emne";
-  } else {
-    emnerOrdElement.innerText = "emner";
   }
 
   antallEmnerElement.innerText = checkedRows.length;
@@ -86,6 +150,21 @@ updateSnitt();
  * @returns {Element} The first matching element found, or an empty object if no match is found.
  */
 function getFirstElementInsideElement(element, name, type) {
+  const elements = getElementsInsideElement(element, name, type);
+  if (elements.length > 0) {
+    return elements[0];
+  }
+  return {};
+}
+
+/**
+ * Retrieves all elements inside a given element based on the specified name and type.
+ * @param {Element} element The parent element.
+ * @param {string} name The name of the elements to search for.
+ * @param {string} type The type of search to perform. Can be "tag" or "class".
+ * @returns {Element[]} An array of matching elements found.
+ */
+function getElementsInsideElement(element, name, type) {
   let children;
   if (type == "tag") {
     children = document.getElementsByTagName(name);
@@ -93,13 +172,15 @@ function getFirstElementInsideElement(element, name, type) {
     children = document.getElementsByClassName(name);
   }
 
+  const elements = [];
+
   for (const child of children) {
     const parent = child ? child.parentNode : {};
     if (parent === element) {
-      return child;
+      elements.push(child);
     }
   }
-  return {};
+  return elements;
 }
 
 /**
