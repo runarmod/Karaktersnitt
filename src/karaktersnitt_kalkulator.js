@@ -96,6 +96,8 @@ function createCheckboxes(subjects) {
 function updateSnitt() {
   const checkedRows = [];
   checkedSubjects = [];
+  let total_credits = 0;
+
   for (const row of allRows) {
     if (!rowIsInteresting(row)) {
       continue;
@@ -120,13 +122,18 @@ function updateSnitt() {
       "class"
     ).innerText;
 
-    sum += 5 - "ABCDEF".indexOf(grade);
+    const credits = parseFloat(
+      row.children[row.children.length - 1].innerText.replace(",", ".")
+    );
+
+    total_credits += credits;
+    sum += (5 - "ABCDEF".indexOf(grade)) * credits;
   }
 
   if (sum == 0) {
     snittElement.innerText = "[Ingen emner valgt]";
   } else {
-    snittElement.innerText = (sum / checkedRows.length).toFixed(2);
+    snittElement.innerText = (sum / total_credits).toFixed(2);
   }
 
   emnerOrdElement.innerText = "emner";
