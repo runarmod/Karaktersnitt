@@ -1,14 +1,23 @@
 # Karaktersnitt for Studentweb
 
+<a href="https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd"><img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style='height: 60px; margin-right: 10px;' alt="Avaliable in the Chrome Web Store" /></a>
+<a href="https://addons.mozilla.org/addon/karaktersnitt-for-studentweb"><img src='https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png' alt='Get the add-on for Firefox' style='height: 60px;' /></a>
+
 ## Beskrivelse
 
-Dette er en firefox utvidelse som automatisk regner ut karaktersnittet ditt i studentweb. Det er mulig å velge hvilke emner som skal regnes med i snittet. Utvidelsen er laget for å gjøre det enklere å holde oversikt over karaktersnittet sitt, og for å slippe å regne det ut manuelt. Utvidelsen er laget for å være enkel å bruke, og for å ikke lagre noen data om brukeren.
+Dette er en utvidelse for Firefox og Google Chrome som automatisk regner ut karaktersnittet ditt i studentweb. Det er mulig å velge hvilke emner som skal regnes med i snittet. Utvidelsen er laget for å gjøre det enklere å holde oversikt over karaktersnittet sitt, og for å slippe å regne det ut manuelt. Utvidelsen er laget for å være enkel å bruke, og for å ikke lagre noen data om brukeren.
 
 ![Eksempel karakterer](assets/image.png)
 
 ## Installasjon
 
-Last ned utvidelsen i firefox ved å gå til [utvidelsessiden](https://addons.mozilla.org/addon/karaktersnitt-for-studentweb/). Trykk på "Add to Firefox" og følg instruksjonene. Utvidelsen vil nå være tilgjengelig i firefox.
+### Firefox
+
+Last ned utvidelsen i Firefox ved å gå til [utvidelsessiden](https://addons.mozilla.org/addon/karaktersnitt-for-studentweb/). Trykk på "Add to Firefox" og følg instruksjonene. Utvidelsen vil nå være tilgjengelig i Firefox.
+
+### Google Chrome
+
+Last ned utvidelsen i chrome ved å gå til [utvidelsessiden](https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd). Trykk på "Add to Chrome" og følg instruksjonene. Utvidelsen vil nå være tilgjengelig i Chrome.
 
 ## Bruk
 
