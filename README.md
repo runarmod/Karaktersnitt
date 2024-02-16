@@ -1,7 +1,8 @@
 # Karaktersnitt for Studentweb
 
-<a href="https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd"><img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style='height: 60px; margin-right: 10px;' alt="Avaliable in the Chrome Web Store" /></a>
-<a href="https://addons.mozilla.org/addon/karaktersnitt-for-studentweb"><img src='https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png' alt='Get the add-on for Firefox' style='height: 60px;' /></a>
+[<img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style='height: 60px; margin-right: 10px;' alt="Avaliable in the Chrome Web Store" />](https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd)
+
+[<img src='https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png' alt='Get the add-on for Firefox' style='height: 60px;' />](https://addons.mozilla.org/addon/karaktersnitt-for-studentweb)
 
 ## Beskrivelse
 
@@ -35,6 +36,9 @@ npm install --global web-ext
 
 # Run development which reloads on file changes
 web-ext run
+
+# Check for errors/notices/warnings
+web-ext lint
 
 # Build for production
 web-ext build
