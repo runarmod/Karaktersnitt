@@ -6,12 +6,6 @@
   "description": "Regner automatisk ut karaktersnitt på Studentweb.",
   "homepage_url": "https://github.com/runarmod/Karaktersnitt",
 
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{ed445e9e-ee55-4a38-9692-83a6012845d0}"
-    }
-  },
-
   "developer": {
     "name": "Runar Saur Modahl",
     "url": "https://runarmod.no"
