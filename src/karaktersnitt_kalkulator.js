@@ -4,7 +4,9 @@
  * The script is only executed on the "Mine resultater" page.
  */
 
-const allRows = document.getElementsByTagName("tr");
+const allRows = document
+  .querySelector(".table-standard.reflow.ui-panel-content")
+  .getElementsByTagName("tr");
 
 let checkedSubjects = [];
 
@@ -41,7 +43,35 @@ for (const changeButton of changeButtonsLabels) {
   });
 }
 
+createBoldLines();
 createAllCheckboxes();
+
+/**
+ * Creates bold lines between rows with different semesters, to easier distinguish between them.
+ */
+function createBoldLines() {
+  let previousRow = null;
+  for (const row of allRows) {
+    if (
+      !(row.classList.contains("none") || row.classList.contains("resultatTop"))
+    )
+      continue;
+
+    if (!previousRow) {
+      previousRow = row;
+      continue;
+    }
+
+    const previousSemester = previousRow.children[0].children[1].innerText;
+    const currentSemester = row.children[0].children[1].innerText;
+
+    if (previousSemester != currentSemester) {
+      row.style.borderTop = "3px solid black";
+    }
+
+    previousRow = row;
+  }
+}
 
 /**
  * Creates checkboxes for each relevant row and attaches event
