@@ -1,0 +1,32 @@
+name: Create release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔄 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🟢 Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+
+      - name: ⚙️ Install web-ext
+        run: npm install -g web-ext
+
+      - name: 🏗️ Build the extension
+        run: web-ext build
+
+      - name: 🚀 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.TOKEN }}
+          generate_release_notes: true
+          make_latest: true
+          files: web-ext-artifacts/*.zip
