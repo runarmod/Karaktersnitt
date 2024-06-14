@@ -8,7 +8,7 @@
 
 Dette er en utvidelse for Firefox og Google Chrome som automatisk regner ut karaktersnittet ditt i studentweb. Det er mulig å velge hvilke emner som skal regnes med i snittet. Utvidelsen er laget for å gjøre det enklere å holde oversikt over karaktersnittet sitt, og for å slippe å regne det ut manuelt. Utvidelsen er laget for å være enkel å bruke, og for å ikke lagre noen data om brukeren.
 
-![Eksempel karakterer](assets/image.png)
+![Eksempel karakterer](assets/example_grades.png)
 
 ## Installasjon
 
