@@ -6,7 +6,9 @@ on:
       - "v*.*.*"
 
 jobs:
-  build:
+  release:
+    # prevents this action from running on forks
+    if: github.repository == 'runarmod/Karaktersnitt'
     runs-on: ubuntu-latest
     steps:
       - name: 🔄 Checkout
