@@ -24,13 +24,15 @@ jobs:
         run: npm install -g web-ext
 
       - name: 🏗️ Build the extension
-        run: web-ext build
+        run: |
+          web-ext build
+          cp web-ext-artifacts/*.zip latest.zip
 
       - name: 📦 Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: web-ext-artifacts
-          path: web-ext-artifacts/*.zip
+          path: latest.zip
 
       - name: 🚀 Release
         uses: softprops/action-gh-release@v2
@@ -68,6 +70,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: release
     steps:
+      - name: 🔄 Checkout
+        uses: actions/checkout@v4
+
       - name: 🟢 Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -77,8 +82,9 @@ jobs:
         uses: actions/download-artifact@v4
 
       - name: 🚀 Publish to Chrome
-        run: npx chrome-webstore-upload-cli@3
-        working-directory: web-ext-artifacts
+        run: |
+          npm install -g chrome-webstore-upload-cli
+          npx chrome-webstore-upload-cli --source=web-ext-artifacts/latest.zip
         env:
           EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
