@@ -4,9 +4,11 @@
 
 [<img src='https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png' alt='Get the add-on for Firefox' style='height: 60px;' />](https://addons.mozilla.org/addon/karaktersnitt-for-studentweb)
 
+[<img src='https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1Mu3b?ver=5c31' alt='Get the add-on for Microsoft Edge' style='height: 60px;' />](https://microsoftedge.microsoft.com/addons/detail/karaktersnitt-for-student/iffeapfmkbcceoflgkkcgoglmodjpbij)
+
 ## Beskrivelse
 
-Dette er en utvidelse for Firefox og Google Chrome som automatisk regner ut karaktersnittet ditt i studentweb. Det er mulig å velge hvilke emner som skal regnes med i snittet. Utvidelsen er laget for å gjøre det enklere å holde oversikt over karaktersnittet sitt, og for å slippe å regne det ut manuelt. Utvidelsen er laget for å være enkel å bruke, og for å ikke lagre noen data om brukeren.
+Dette er en utvidelse for Firefox, Google Chrome og Microsoft Edge som automatisk regner ut karaktersnittet ditt i studentweb. Det er mulig å velge hvilke emner som skal regnes med i snittet. Utvidelsen er laget for å gjøre det enklere å holde oversikt over karaktersnittet sitt, og for å slippe å regne det ut manuelt. Utvidelsen er laget for å være enkel å bruke, og for å ikke lagre noen data om brukeren.
 
 ![Eksempel karakterer](assets/example_grades.png)
 
@@ -19,6 +21,10 @@ Last ned utvidelsen i Firefox ved å gå til [utvidelsessiden](https://addons.mo
 ### Google Chrome
 
 Last ned utvidelsen i chrome ved å gå til [utvidelsessiden](https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd). Trykk på "Add to Chrome" og følg instruksjonene. Utvidelsen vil nå være tilgjengelig i Chrome.
+
+### Microsoft Edge
+
+Utvidelsen er også tilgjengelig i Microsoft Edge. Last ned utvidelsen i Edge ved å gå til [utvidelsessiden](https://microsoftedge.microsoft.com/addons/detail/karaktersnitt-for-student/iffeapfmkbcceoflgkkcgoglmodjpbij). Trykk på "Last ned". Utvidelsen vil nå være tilgjengelig i Edge.
 
 ## Bruk
 
