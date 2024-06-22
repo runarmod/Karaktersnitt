@@ -11,34 +11,55 @@ const allRows = document
 let checkedSubjects = [];
 
 document.getElementById("mineResultaterTittel").innerHTML = `
-<details>
-<summary>Resultater - klikk for å se snitt</summary>
-<div style="display: flex">
+<details open>
+  <summary>Resultater - klikk for å se snitt</summary>
   <h2>
-  Snittet ditt er <b id="snitt">BLANK</b>.
-  <br />
-  Du har <b id="antallEmner">BLANK</b> <span id="emnerOrd">emner</span> som teller i snittet.
+    <div>
+      Snittet ditt er <b id="snitt">BLANK</b>.
+      <br />
+      Du har <b id="antallEmner">BLANK</b> <span id="emnerOrd">emner</span> som teller i snittet.
+    </div>
+    <table class="karakterTabell">
+      <tr>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>E</th>
+        <th>F</th>
+      </tr>
+      <tr>
+        <td id="antallA">0</td>
+        <td id="antallB">0</td>
+        <td id="antallC">0</td>
+        <td id="antallD">0</td>
+        <td id="antallE">0</td>
+        <td id="antallF">0</td>
+      </tr>
+    </table>
   </h2>
-  <table>
-    <tr>
-      <th>A</th>
-      <th>B</th>
-      <th>C</th>
-      <th>D</th>
-      <th>E</th>
-      <th>F</th>
-    </tr>
-    <tr>
-      <td id="antallA"></td>
-      <td id="antallB"></td>
-      <td id="antallC"></td>
-      <td id="antallD"></td>
-      <td id="antallE"></td>
-      <td id="antallF"></td>
-    </tr>
-  </table>
-</div>
 </details>`;
+
+const css = `
+<style>
+  .karakterTabell {
+    margin-top: 20px;
+    table-layout: fixed;
+    width: 400px;
+  }
+
+  .karakterTabell tr th {
+    background-color: #a0a0a0;
+  }
+
+  .karakterTabell tr th,
+  .karakterTabell tr td {
+    border: 1px solid black;
+    text-align: center;
+  }
+</style>`;
+
+document.head.insertAdjacentHTML("beforeend", css);
 
 const snittElement = document.getElementById("snitt");
 const antallEmnerElement = document.getElementById("antallEmner");
@@ -47,9 +68,8 @@ const antallKarakterer = [];
 for (let i = 0; i < 6; i++) {
   antallKarakterer.push(document.getElementById("antall" + "ABCDEF"[i]));
 }
-console.log(antallKarakterer);
 
-let counts = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+let gradeCounts = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
 
 // Let the page load before adding the checkboxes
 const changeButtonsTds = getElementsInsideElement(
@@ -153,7 +173,7 @@ function createCheckboxes(subjects) {
 function updateSnitt() {
   const checkedRows = [];
   checkedSubjects = [];
-  counts = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+  gradeCounts = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
 
   let total_credits = 0;
 
@@ -181,7 +201,7 @@ function updateSnitt() {
       "class"
     ).innerText;
 
-    counts[grade]++;
+    gradeCounts[grade]++;
 
     const credits = parseFloat(
       row.children[row.children.length - 1].innerText.replace(",", ".")
@@ -208,7 +228,7 @@ function updateSnitt() {
 
 function updateGradeCounts() {
   for (let i = 0; i < 6; i++) {
-    antallKarakterer[i].innerText = counts["ABCDEF"[i]];
+    antallKarakterer[i].innerText = gradeCounts["ABCDEF"[i]];
   }
 }
 
