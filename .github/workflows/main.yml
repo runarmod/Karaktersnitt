@@ -10,10 +10,16 @@ jobs:
     name: "Lint"
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout"
+      - name: 🔄 Checkout
         uses: actions/checkout@v4
 
-      - name: "web-ext lint"
-        uses: freaktechnik/web-ext-lint@v1
+      - name: 🟢 Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          verbose: true
+          node-version: "latest"
+
+      - name: ⚙️ Install web-ext
+        run: npm install -g web-ext
+
+      - name: 🧹 Lint
+        run: web-ext lint -w
