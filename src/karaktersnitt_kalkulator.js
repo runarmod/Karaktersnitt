@@ -41,7 +41,6 @@ document.getElementById("mineResultaterTittel").innerHTML = `
 </details>`;
 
 const css = `
-<style>
   .karakterTabell {
     margin-top: 20px;
     table-layout: fixed;
@@ -56,10 +55,11 @@ const css = `
   .karakterTabell tr td {
     border: 1px solid black;
     text-align: center;
-  }
-</style>`;
+  }`;
 
-document.head.insertAdjacentHTML("beforeend", css);
+const styleSheet = document.createElement("style");
+styleSheet.textContent = css;
+document.head.appendChild(styleSheet);
 
 const snittElement = document.getElementById("snitt");
 const antallEmnerElement = document.getElementById("antallEmner");
