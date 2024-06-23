@@ -11,7 +11,7 @@ const allRows = document
 let checkedSubjects = [];
 
 document.getElementById("mineResultaterTittel").innerHTML = `
-<details open>
+<details>
   <summary>Resultater - klikk for å se snitt</summary>
   <h2>
     <div>
