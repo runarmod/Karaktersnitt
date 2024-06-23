@@ -1,0 +1,33 @@
+name: Upgrade version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to upgrade to (e.g. '1.1.2')"
+        required: true
+
+jobs:
+  upgrade:
+    name: Upgrade version
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔄 Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TOKEN }}
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 📦 Upgrade version
+        run: python version-upgrade.py ${{ github.event.inputs.version }}
+        working-directory: .github/scripts
+
+      - name: 🤖 Commit and push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Upgrade to version ${{ github.event.inputs.version }}
+          tagging_message: "v${{ github.event.inputs.version }}"
