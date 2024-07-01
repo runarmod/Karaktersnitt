@@ -296,8 +296,10 @@ function updateSnittBasedOnGradeCounts() {
     snittElement.innerText = "[Ingen emner valgt]";
     snittBokstavElement.innerText = "-";
   } else {
-    const calculatedAverage = (sum / total_credits).toFixed(2);
-    snittElement.innerText = calculatedAverage;
+    const calculatedAverage = sum / total_credits;
+    console.info("Nøyaktig snitt:", calculatedAverage);
+
+    snittElement.innerText = Math.trunc(calculatedAverage * 100) / 100;
     snittBokstavElement.innerText =
       gradeNames[5 - Math.round(calculatedAverage)];
   }
