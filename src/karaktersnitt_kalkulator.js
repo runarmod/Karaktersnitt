@@ -15,7 +15,7 @@ document.getElementById("mineResultaterTittel").innerHTML = `
   <summary>Resultater - klikk for å se snitt</summary>
   <h2>
     <div>
-      Snittet ditt er <b id="snitt">BLANK</b>.
+      Snittet ditt er <b id="snitt">BLANK</b> (<b id="snittBokstav">-</b>).
       <br />
       Du har <b id="antallEmner">BLANK</b> <span id="emnerOrd">emner</span> som
       teller i snittet.
@@ -108,6 +108,7 @@ styleSheet.textContent = css;
 document.head.appendChild(styleSheet);
 
 const snittElement = document.getElementById("snitt");
+const snittBokstavElement = document.getElementById("snittBokstav");
 const antallEmnerElement = document.getElementById("antallEmner");
 const emnerOrdElement = document.getElementById("emnerOrd");
 const addButton = document.getElementById("addButton");
@@ -293,8 +294,14 @@ function updateSnittBasedOnGradeCounts() {
 
   if (sum == 0) {
     snittElement.innerText = "[Ingen emner valgt]";
+    snittBokstavElement.innerText = "-";
   } else {
-    snittElement.innerText = (sum / total_credits).toFixed(2);
+    const calculatedAverage = sum / total_credits;
+    console.info("Nøyaktig snitt:", calculatedAverage);
+
+    snittElement.innerText = Math.trunc(calculatedAverage * 100) / 100;
+    snittBokstavElement.innerText =
+      gradeNames[5 - Math.round(calculatedAverage)];
   }
 
   emnerOrdElement.innerText = "emner";
