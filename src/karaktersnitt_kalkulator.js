@@ -17,45 +17,91 @@ document.getElementById("mineResultaterTittel").innerHTML = `
     <div>
       Snittet ditt er <b id="snitt">BLANK</b>.
       <br />
-      Du har <b id="antallEmner">BLANK</b> <span id="emnerOrd">emner</span> som teller i snittet.
+      Du har <b id="antallEmner">BLANK</b> <span id="emnerOrd">emner</span> som
+      teller i snittet.
     </div>
     <table class="karakterTabell">
-      <tr>
-        <th>A</th>
-        <th>B</th>
-        <th>C</th>
-        <th>D</th>
-        <th>E</th>
-        <th>F</th>
-      </tr>
-      <tr>
-        <td id="antallA">0</td>
-        <td id="antallB">0</td>
-        <td id="antallC">0</td>
-        <td id="antallD">0</td>
-        <td id="antallE">0</td>
-        <td id="antallF">0</td>
-      </tr>
+      <thead>
+        <tr>
+          <th>A</th>
+          <th>B</th>
+          <th>C</th>
+          <th>D</th>
+          <th>E</th>
+          <th>F</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="antallA">0</td>
+          <td id="antallB">0</td>
+          <td id="antallC">0</td>
+          <td id="antallD">0</td>
+          <td id="antallE">0</td>
+          <td id="antallF">0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="ekstraKarakterTabell">
+      <caption>
+        Legg til ekstra karakterer
+      </caption>
+      <thead>
+        <tr>
+          <th>Karakter (A-F)</th>
+          <th>Studiepoeng</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="form">
+          <td><input type="text" /></td>
+          <td><input type="number" min="1" max="30" step="0.5" /></td>
+          <td><button id="addButton">Legg til</button></td>
+        </tr>
+      </tbody>
     </table>
   </h2>
 </details>`;
 
 const css = `
-  .karakterTabell {
-    margin-top: 20px;
-    table-layout: fixed;
-    width: 400px;
-  }
+.karakterTabell,
+.ekstraKarakterTabell {
+  margin-top: 20px;
+  table-layout: fixed;
+  width: 400px;
+}
 
-  .karakterTabell tr th {
-    background-color: #a0a0a0;
-  }
+.karakterTabell tr th,
+.ekstraKarakterTabell tr th {
+  background-color: #a0a0a0;
+}
 
-  .karakterTabell tr th,
-  .karakterTabell tr td {
-    border: 1px solid black;
-    text-align: center;
-  }`;
+.karakterTabell tr th,
+.karakterTabell tr td,
+.ekstraKarakterTabell tr th,
+.ekstraKarakterTabell tr td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+input,
+button {
+  width: 100%;
+  margin: 0;
+}
+
+#addButton {
+  background-color: #4caf50;
+}
+
+button {
+  background-color: #ff474e;
+  color: white;
+  border: none;
+  cursor: pointer;
+}`;
 
 const styleSheet = document.createElement("style");
 styleSheet.textContent = css;
@@ -64,6 +110,9 @@ document.head.appendChild(styleSheet);
 const snittElement = document.getElementById("snitt");
 const antallEmnerElement = document.getElementById("antallEmner");
 const emnerOrdElement = document.getElementById("emnerOrd");
+const addButton = document.getElementById("addButton");
+addButton.addEventListener("click", addGrade);
+
 const antallKarakterer = [];
 for (let i = 0; i < 6; i++) {
   antallKarakterer.push(document.getElementById("antall" + "ABCDEF"[i]));
@@ -72,9 +121,11 @@ for (let i = 0; i < 6; i++) {
 const gradeNames = ["A", "B", "C", "D", "E", "Ikke bestått"];
 
 const gradeCounts = {};
+const creditCounts = {};
 
 gradeNames.forEach((grade) => {
   gradeCounts[grade] = 0;
+  creditCounts[grade] = 0;
 });
 
 // Let the page load before adding the checkboxes
@@ -139,7 +190,7 @@ function createAllCheckboxes() {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = true;
-    checkbox.addEventListener("change", updateSnitt);
+    checkbox.addEventListener("change", recountAndUpdateSnitt);
     firstColoumn.appendChild(checkbox);
 
     const subject = row.children[1].children[1].children[0].innerText;
@@ -166,7 +217,7 @@ function createCheckboxes(subjects) {
     const subject = row.children[1].children[1].children[0].innerText;
     checkbox.checked = subjects.includes(subject);
 
-    checkbox.addEventListener("change", updateSnitt);
+    checkbox.addEventListener("change", recountAndUpdateSnitt);
 
     const firstColoumn = row.children[0];
     firstColoumn.appendChild(checkbox);
@@ -176,14 +227,18 @@ function createCheckboxes(subjects) {
 /**
  * Updates the average grade based on the selected rows.
  */
-function updateSnitt() {
+function recountAndUpdateSnitt() {
   const checkedRows = [];
   checkedSubjects = [];
   gradeNames.forEach((grade) => {
     gradeCounts[grade] = 0;
+    creditCounts[grade] = 0;
   });
 
-  let total_credits = 0;
+  const tbody = document.querySelector(".ekstraKarakterTabell tbody");
+  while (tbody.children.length > 1) {
+    tbody.children[0].remove();
+  }
 
   for (const row of allRows) {
     if (!rowIsInteresting(row)) {
@@ -201,7 +256,6 @@ function updateSnitt() {
     }
   }
 
-  let sum = 0;
   for (const row of checkedRows) {
     const grade = getFirstElementInsideElement(
       row.children[row.children.length - 2],
@@ -209,15 +263,33 @@ function updateSnitt() {
       "class"
     ).innerText;
 
-    gradeCounts[grade]++;
-
     const credits = parseFloat(
       row.children[row.children.length - 1].innerText.replace(",", ".")
     );
 
-    total_credits += credits;
-    sum += (5 - gradeNames.indexOf(grade)) * credits;
+    gradeCounts[grade]++;
+    creditCounts[grade] += credits;
   }
+
+  updateSnittBasedOnGradeCounts();
+}
+
+function updateSnittBasedOnGradeCounts() {
+  for (let i = 0; i < 6; i++) {
+    antallKarakterer[i].innerText = gradeCounts[gradeNames[i]];
+  }
+
+  let sum = 0;
+  let total_credits = 0;
+  gradeNames.forEach((grade) => {
+    sum += (5 - gradeNames.indexOf(grade)) * creditCounts[grade];
+    total_credits += creditCounts[grade];
+  });
+
+  let numberOfGrades = 0;
+  gradeNames.forEach((grade) => {
+    numberOfGrades += gradeCounts[grade];
+  });
 
   if (sum == 0) {
     snittElement.innerText = "[Ingen emner valgt]";
@@ -226,21 +298,77 @@ function updateSnitt() {
   }
 
   emnerOrdElement.innerText = "emner";
-  if (checkedRows.length == 1) {
+  if (numberOfGrades == 1) {
     emnerOrdElement.innerText = "emne";
   }
 
-  antallEmnerElement.innerText = checkedRows.length;
-  updateGradeCounts();
+  antallEmnerElement.innerText = numberOfGrades;
 }
 
-function updateGradeCounts() {
-  for (let i = 0; i < 6; i++) {
-    antallKarakterer[i].innerText = gradeCounts[gradeNames[i]];
+function addGrade() {
+  const gradeInput = document.querySelector(
+    ".ekstraKarakterTabell input[type='text']"
+  );
+  const creditsInput = document.querySelector(
+    ".ekstraKarakterTabell input[type='number']"
+  );
+
+  const grade =
+    gradeInput.value.toLowerCase() === "f" ||
+    gradeInput.value.toLowerCase() === "ikke bestått"
+      ? "Ikke bestått"
+      : gradeInput.value.toUpperCase();
+  const credits = parseFloat(creditsInput.value.replace(",", "."));
+
+  if (
+    gradeNames.indexOf(grade) == -1 ||
+    !isPositiveNumber(credits) ||
+    credits > 30
+  ) {
+    alert("Ugyldig karakter eller studiepoeng.");
+    return;
   }
+
+  gradeInput.value = "";
+  creditsInput.value = "";
+
+  const tbody = document.querySelector(".ekstraKarakterTabell tbody");
+  const formRow = document.getElementById("form");
+  const newRow = document.createElement("tr");
+  const newGrade = document.createElement("td");
+  const newCredits = document.createElement("td");
+  const newButton = document.createElement("td");
+
+  newGrade.innerText = grade;
+  newCredits.innerText = credits;
+  newButton.innerHTML = "<button>Fjern</button>";
+  newButton.addEventListener("click", () => removeGrade(newRow));
+
+  newRow.appendChild(newGrade);
+  newRow.appendChild(newCredits);
+  newRow.appendChild(newButton);
+
+  tbody.insertBefore(newRow, formRow);
+
+  gradeCounts[grade]++;
+  creditCounts[grade] += credits;
+
+  updateSnittBasedOnGradeCounts();
 }
 
-updateSnitt();
+function removeGrade(row) {
+  const grade = row.children[0].innerText;
+  const credits = parseFloat(row.children[1].innerText);
+
+  gradeCounts[grade]--;
+  creditCounts[grade] -= credits;
+
+  updateSnittBasedOnGradeCounts();
+
+  row.remove();
+}
+
+recountAndUpdateSnitt();
 
 // UTILITY FUNCTIONS
 
