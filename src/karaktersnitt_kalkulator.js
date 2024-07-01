@@ -69,7 +69,13 @@ for (let i = 0; i < 6; i++) {
   antallKarakterer.push(document.getElementById("antall" + "ABCDEF"[i]));
 }
 
-let gradeCounts = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+const gradeNames = ["A", "B", "C", "D", "E", "Ikke bestått"];
+
+const gradeCounts = {};
+
+gradeNames.forEach((grade) => {
+  gradeCounts[grade] = 0;
+});
 
 // Let the page load before adding the checkboxes
 const changeButtonsTds = getElementsInsideElement(
@@ -173,7 +179,9 @@ function createCheckboxes(subjects) {
 function updateSnitt() {
   const checkedRows = [];
   checkedSubjects = [];
-  gradeCounts = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+  gradeNames.forEach((grade) => {
+    gradeCounts[grade] = 0;
+  });
 
   let total_credits = 0;
 
@@ -208,7 +216,7 @@ function updateSnitt() {
     );
 
     total_credits += credits;
-    sum += (5 - "ABCDEF".indexOf(grade)) * credits;
+    sum += (5 - gradeNames.indexOf(grade)) * credits;
   }
 
   if (sum == 0) {
@@ -228,7 +236,7 @@ function updateSnitt() {
 
 function updateGradeCounts() {
   for (let i = 0; i < 6; i++) {
-    antallKarakterer[i].innerText = gradeCounts["ABCDEF"[i]];
+    antallKarakterer[i].innerText = gradeCounts[gradeNames[i]];
   }
 }
 
@@ -292,14 +300,15 @@ function rowIsInteresting(element) {
     return false;
   }
 
-  // Grade is A-F
+  // Grade is A - Ikke bestått(F)
   const secondLastColoumn = element.children[element.children.length - 2];
   const div = getFirstElementInsideElement(
     secondLastColoumn,
     "infoLinje",
     "class"
   );
-  if (div.innerText.length != 1 || "ABCDEF".indexOf(div.innerText) == -1) {
+
+  if (div.innerText.length == 0 || gradeNames.indexOf(div.innerText) == -1) {
     return false;
   }
 
