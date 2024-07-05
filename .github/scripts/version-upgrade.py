@@ -15,11 +15,22 @@ with open(manifest, encoding="utf-8") as f:
 
 old_version = re.search(r'"version":\s*"(\d+\.\d+\.\d+)"', data).group(1)
 
-old_version_parts = list(map(int, old_version.split(".")))
-new_version_parts = list(map(int, sys.argv[1].split(".")))
+old_version_parts = tuple(map(int, old_version.split(".")))
+new_version_parts = tuple(map(int, sys.argv[1].split(".")))
 
-if new_version_parts <= old_version_parts:
-    print("New version must be greater than the old version.")
+# Legal new versions, in order of patch, minor, major
+new_legal_versions = [
+    (old_version_parts[0], old_version_parts[1], old_version_parts[2] + 1),
+    (old_version_parts[0], old_version_parts[1] + 1, 0),
+    (old_version_parts[0] + 1, 0, 0),
+]
+
+if new_version_parts not in new_legal_versions:
+    print("Invalid version number.")
+    print("Legal versions are:")
+    print("    Patch -", ".".join(map(str, new_legal_versions[0])))
+    print("    Minor -", ".".join(map(str, new_legal_versions[1])))
+    print("    Major -", ".".join(map(str, new_legal_versions[2])))
     sys.exit(1)
 
 new_data = re.sub(
