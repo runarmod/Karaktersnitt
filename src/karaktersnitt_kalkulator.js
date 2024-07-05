@@ -191,12 +191,50 @@ function createAllCheckboxes() {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = true;
-    checkbox.addEventListener("change", recountAndUpdateSnitt);
+    checkbox.addEventListener("change", (event) =>
+      checkboxToggeled(row, event.target.checked)
+    );
+
     firstColoumn.appendChild(checkbox);
 
     const subject = row.children[1].children[1].children[0].innerText;
     checkedSubjects.push(subject);
   }
+}
+
+/**
+ * Extracts the grade and credits from a given row element.
+ *
+ * @param {HTMLElement} row The row element containing the grade and credits.
+ * @returns {Object} An object containing the extracted grade and credits.
+ */
+function extractGradeAndCreditsFromRow(row) {
+  const grade = getFirstElementInsideElement(
+    row.children[row.children.length - 2],
+    "infoLinje",
+    "class"
+  ).innerText;
+
+  const credits = parseFloat(
+    row.children[row.children.length - 1].innerText.replace(",", ".")
+  );
+
+  return { grade, credits };
+}
+
+/**
+ * Toggles the checkbox for a row and updates the grade and credit counts accordingly.
+ *
+ * @param {HTMLElement} row The row element containing the checkbox.
+ * @param {boolean} toActive Indicates whether the checkbox is being toggled to active or inactive state.
+ */
+function checkboxToggeled(row, toActive) {
+  const { grade, credits } = extractGradeAndCreditsFromRow(row);
+
+  gradeCounts[grade] += toActive ? 1 : -1;
+  creditCounts[grade] += toActive ? credits : -credits;
+
+  updateSnittBasedOnGradeCounts();
 }
 
 /**
@@ -258,15 +296,7 @@ function recountAndUpdateSnitt() {
   }
 
   for (const row of checkedRows) {
-    const grade = getFirstElementInsideElement(
-      row.children[row.children.length - 2],
-      "infoLinje",
-      "class"
-    ).innerText;
-
-    const credits = parseFloat(
-      row.children[row.children.length - 1].innerText.replace(",", ".")
-    );
+    const { grade, credits } = extractGradeAndCreditsFromRow(row);
 
     gradeCounts[grade]++;
     creditCounts[grade] += credits;
