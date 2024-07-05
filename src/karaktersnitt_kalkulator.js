@@ -187,7 +187,7 @@ function createAllCheckboxes() {
     if (!rowIsInteresting(row)) {
       continue;
     }
-    const firstColoumn = row.children[0];
+    const firstColumn = row.children[0];
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = true;
@@ -195,7 +195,7 @@ function createAllCheckboxes() {
       checkboxToggeled(row, event.target.checked)
     );
 
-    firstColoumn.appendChild(checkbox);
+    firstColumn.appendChild(checkbox);
 
     const subject = row.children[1].children[1].children[0].innerText;
     checkedSubjects.push(subject);
@@ -258,8 +258,8 @@ function createCheckboxes(subjects) {
 
     checkbox.addEventListener("change", recountAndUpdateSnitt);
 
-    const firstColoumn = row.children[0];
-    firstColoumn.appendChild(checkbox);
+    const firstColumn = row.children[0];
+    firstColumn.appendChild(checkbox);
   }
 }
 
@@ -459,16 +459,16 @@ function getElementsInsideElement(element, name, type) {
  */
 function rowIsInteresting(element) {
   // Subject has more than 0 points
-  const lastColoumn = element.children[element.children.length - 1];
-  const content = lastColoumn.innerText.replace(",", ".");
+  const lastColumn = element.children[element.children.length - 1];
+  const content = lastColumn.innerText.replace(",", ".");
   if (!isPositiveNumber(content)) {
     return false;
   }
 
   // Grade is A - Ikke bestått(F)
-  const secondLastColoumn = element.children[element.children.length - 2];
+  const secondLastColumn = element.children[element.children.length - 2];
   const div = getFirstElementInsideElement(
-    secondLastColoumn,
+    secondLastColumn,
     "infoLinje",
     "class"
   );
