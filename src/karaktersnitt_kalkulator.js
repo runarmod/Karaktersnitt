@@ -117,13 +117,13 @@ button#alle {
 
 }`;
 
-const allNone = `
+const allNone = document.createElement("div");
+allNone.innerHTML = `
 <div class="rasktvalg">
   Raskt valg:
   <button id="ingen" type="button">Velg ingen</button>
   <button id="alle" type="button">Velg alle</button>
-</div>
-`;
+</div>`;
 
 const styleSheet = document.createElement("style");
 styleSheet.textContent = css;
@@ -136,7 +136,10 @@ const emnerOrdElement = document.getElementById("emnerOrd");
 const addButton = document.getElementById("addButton");
 addButton.addEventListener("click", addGrade);
 
-document.getElementsByClassName("visningResultat")[0].innerHTML += allNone;
+const visningResultat = document.querySelector(".visningResultat");
+if (visningResultat) {
+  visningResultat.appendChild(allNone);
+}
 
 const antallKarakterer = [];
 for (let i = 0; i < 6; i++) {
