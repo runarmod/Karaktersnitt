@@ -15,7 +15,7 @@ document.getElementById("mineResultaterTittel").innerHTML = `
   <summary>Resultater - klikk for å se snitt</summary>
   <h2>
     <div>
-      Snittet ditt er <b id="snitt">BLANK</b> (<b id="snittBokstav">-</b>).
+      Snittet ditt er <b><abbr id="snitt">BLANK</abbr></b> (<b id="snittBokstav">-</b>).
       <br />
       Du har <b id="antallEmner">BLANK</b> <span id="emnerOrd">emner</span> som
       teller i snittet.
