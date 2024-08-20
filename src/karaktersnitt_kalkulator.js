@@ -120,8 +120,8 @@ button#alle {
 const allNone = `
 <div class="rasktvalg">
   Raskt valg:
-  <button id="ingen" class="ingen" type="button">Velg ingen</button>
-  <button id="alle" class="alle" type="button">Velg alle</button>
+  <button id="ingen" type="button">Velg ingen</button>
+  <button id="alle" type="button">Velg alle</button>
 </div>
 `;
 
@@ -163,7 +163,6 @@ const changeButtonsTds = getElementsInsideElement(
 const changeButtonsLabels = Array.from(changeButtonsTds).map((td) =>
   getFirstElementInsideElement(td, "label", "tag")
 );
-console.log(changeButtonsLabels)
 
 for (const changeButton of changeButtonsLabels) {
   changeButton.addEventListener("click", () => {
@@ -173,8 +172,27 @@ for (const changeButton of changeButtonsLabels) {
   });
 }
 
+document.getElementById("alle").addEventListener("click", selectAll);
+document.getElementById("ingen").addEventListener("click", selectNone);
+
 createBoldLines();
 createAllCheckboxes();
+
+function selectAll() {
+  document.querySelectorAll(".subject-checkbox").forEach((checkbox) => {
+    if (!checkbox.checked) {
+      checkbox.click();
+    }
+  });
+}
+
+function selectNone() {
+  document.querySelectorAll(".subject-checkbox").forEach((checkbox) => {
+    if (checkbox.checked) {
+      checkbox.click();
+    }
+  });
+}
 
 /**
  * Creates bold lines between rows with different semesters, to easier distinguish between them.
@@ -215,6 +233,7 @@ function createAllCheckboxes() {
     const firstColumn = row.children[0];
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.classList.add("subject-checkbox");
     checkbox.checked = true;
     checkbox.addEventListener("change", (event) =>
       checkboxToggeled(row, event.target.checked)
