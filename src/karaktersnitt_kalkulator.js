@@ -141,7 +141,8 @@ const addButton = document.getElementById("addButton");
 addButton.addEventListener("click", addGrade);
 
 const visningResultat = document.querySelector(".visningResultat");
-if (visningResultat) {
+const rasktValgAlreadyAdded = document.querySelector(".rasktvalg");
+if (visningResultat && !rasktValgAlreadyAdded) {
   visningResultat.appendChild(allNone);
 }
 
