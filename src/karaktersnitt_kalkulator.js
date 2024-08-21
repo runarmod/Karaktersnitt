@@ -376,6 +376,7 @@ function updateSnittBasedOnGradeCounts() {
 
   if (sum == 0) {
     snittElement.innerText = "[Ingen emner valgt]";
+    snittElement.title = "-";
     snittBokstavElement.innerText = "-";
   } else {
     const calculatedAverage = sum / total_credits;
