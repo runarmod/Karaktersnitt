@@ -114,7 +114,11 @@ button#alle {
   border: none;
   cursor: pointer;
   margin: 5px;
+}
 
+button#ingen:hover,
+button#alle:hover {
+  background-color: #333;
 }`;
 
 const allNone = document.createElement("div");
