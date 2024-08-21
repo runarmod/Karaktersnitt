@@ -4,9 +4,8 @@
  * The script is only executed on the "Mine resultater" page.
  */
 
-const allRows = document
-  .querySelector(".table-standard.reflow.ui-panel-content")
-  .getElementsByTagName("tr");
+const table = document.querySelector(".table-standard.reflow.ui-panel-content");
+const allRows = table.getElementsByTagName("tr");
 
 let checkedSubjects = [];
 
@@ -58,7 +57,7 @@ document.getElementById("mineResultaterTittel").innerHTML = `
         <tr id="form">
           <td><input type="text" /></td>
           <td><input type="number" min="1" max="30" step="0.5" /></td>
-          <td><button id="addButton">Legg til</button></td>
+          <td><button id="addButton" class="leggtil">Legg til</button></td>
         </tr>
       </tbody>
     </table>
@@ -87,21 +86,48 @@ const css = `
 }
 
 input,
-button {
+button.leggtil,
+button.fjern {
   width: 100%;
   margin: 0;
 }
 
-#addButton {
+button.leggtil {
   background-color: #4caf50;
 }
 
-button {
+button.fjern {
   background-color: #ff474e;
   color: white;
   border: none;
   cursor: pointer;
+}
+
+.rasktvalg {
+  margin-bottom: 5px !important;
+}
+
+button#ingen,
+button#alle {
+  background-color: #555;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+}
+
+button#ingen:hover,
+button#alle:hover {
+  background-color: #333;
 }`;
+
+const allNone = document.createElement("div");
+allNone.innerHTML = `
+<div class="rasktvalg">
+  Raskt valg:
+  <button id="ingen" type="button">Velg ingen</button>
+  <button id="alle" type="button">Velg alle</button>
+</div>`;
 
 const styleSheet = document.createElement("style");
 styleSheet.textContent = css;
@@ -113,6 +139,11 @@ const antallEmnerElement = document.getElementById("antallEmner");
 const emnerOrdElement = document.getElementById("emnerOrd");
 const addButton = document.getElementById("addButton");
 addButton.addEventListener("click", addGrade);
+
+const visningResultat = document.querySelector(".visningResultat");
+if (visningResultat) {
+  visningResultat.appendChild(allNone);
+}
 
 const antallKarakterer = [];
 for (let i = 0; i < 6; i++) {
@@ -148,8 +179,27 @@ for (const changeButton of changeButtonsLabels) {
   });
 }
 
+document.getElementById("alle").addEventListener("click", selectAll);
+document.getElementById("ingen").addEventListener("click", selectNone);
+
 createBoldLines();
 createAllCheckboxes();
+
+function selectAll() {
+  document.querySelectorAll(".subject-checkbox").forEach((checkbox) => {
+    if (!checkbox.checked) {
+      checkbox.click();
+    }
+  });
+}
+
+function selectNone() {
+  document.querySelectorAll(".subject-checkbox").forEach((checkbox) => {
+    if (checkbox.checked) {
+      checkbox.click();
+    }
+  });
+}
 
 /**
  * Creates bold lines between rows with different semesters, to easier distinguish between them.
@@ -190,6 +240,7 @@ function createAllCheckboxes() {
     const firstColumn = row.children[0];
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.classList.add("subject-checkbox");
     checkbox.checked = true;
     checkbox.addEventListener("change", (event) =>
       checkboxToggeled(row, event.target.checked)
@@ -379,7 +430,7 @@ function addGrade() {
 
   newGrade.innerText = grade;
   newCredits.innerText = credits;
-  newButton.innerHTML = "<button>Fjern</button>";
+  newButton.innerHTML = '<button class="fjern">Fjern</button>';
   newButton.addEventListener("click", () => removeGrade(newRow));
 
   newRow.appendChild(newGrade);
