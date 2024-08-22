@@ -4,10 +4,16 @@
  * The script is only executed on the "Mine resultater" page.
  */
 
-const table = document.querySelector(".table-standard.reflow.ui-panel-content");
-const allRows = table.getElementsByTagName("tr");
+const gradeNames = ["A", "B", "C", "D", "E", "Ikke bestått"];
+const gradeCounts = {};
+const creditCounts = {};
 
-let checkedSubjects = [];
+gradeNames.forEach((grade) => {
+  gradeCounts[grade] = 0;
+  creditCounts[grade] = 0;
+});
+
+let chosenSubjects = getAllSubjects();
 
 document.getElementById("mineResultaterTittel").innerHTML = `
 <details>
@@ -141,7 +147,8 @@ const addButton = document.getElementById("addButton");
 addButton.addEventListener("click", addGrade);
 
 const visningResultat = document.querySelector(".visningResultat");
-if (visningResultat) {
+const rasktValgAlreadyAdded = document.querySelector(".rasktvalg");
+if (visningResultat && !rasktValgAlreadyAdded) {
   visningResultat.appendChild(allNone);
 }
 
@@ -149,16 +156,6 @@ const antallKarakterer = [];
 for (let i = 0; i < 6; i++) {
   antallKarakterer.push(document.getElementById("antall" + "ABCDEF"[i]));
 }
-
-const gradeNames = ["A", "B", "C", "D", "E", "Ikke bestått"];
-
-const gradeCounts = {};
-const creditCounts = {};
-
-gradeNames.forEach((grade) => {
-  gradeCounts[grade] = 0;
-  creditCounts[grade] = 0;
-});
 
 // Let the page load before adding the checkboxes
 const changeButtonsTds = getElementsInsideElement(
@@ -174,7 +171,8 @@ const changeButtonsLabels = Array.from(changeButtonsTds).map((td) =>
 for (const changeButton of changeButtonsLabels) {
   changeButton.addEventListener("click", () => {
     setTimeout(() => {
-      createCheckboxes(checkedSubjects);
+      createAllCheckboxes();
+      toggleNotChosen();
     }, 150);
   });
 }
@@ -183,7 +181,11 @@ document.getElementById("alle").addEventListener("click", selectAll);
 document.getElementById("ingen").addEventListener("click", selectNone);
 
 createBoldLines();
-createAllCheckboxes();
+
+const checkboxesAlreadyAdded = document.querySelector(".subject-checkbox");
+if (!checkboxesAlreadyAdded) {
+  createAllCheckboxes();
+}
 
 function selectAll() {
   document.querySelectorAll(".subject-checkbox").forEach((checkbox) => {
@@ -201,10 +203,23 @@ function selectNone() {
   });
 }
 
+function toggleNotChosen() {
+  document.querySelectorAll(".subject-checkbox").forEach((checkbox) => {
+    if (!chosenSubjects.includes(checkbox.title)) {
+      checkbox.click();
+    }
+  });
+}
+
 /**
  * Creates bold lines between rows with different semesters, to easier distinguish between them.
  */
 function createBoldLines() {
+  const table = document.querySelector(
+    ".table-standard.reflow.ui-panel-content"
+  );
+  const allRows = table.getElementsByTagName("tr");
+
   let previousRow = null;
   for (const row of allRows) {
     if (
@@ -228,11 +243,32 @@ function createBoldLines() {
   }
 }
 
+function getAllSubjects() {
+  const table = document.querySelector(
+    ".table-standard.reflow.ui-panel-content"
+  );
+  const allRows = table.getElementsByTagName("tr");
+
+  return Array.from(allRows)
+    .filter(rowIsInteresting)
+    .map((row) => row.children[1].children[1].children[0].innerText);
+}
+
 /**
  * Creates checkboxes for each relevant row and attaches event
  * listener to update the average when checkbox is changed.
  */
 function createAllCheckboxes() {
+  for (const grade of gradeNames) {
+    gradeCounts[grade] = 0;
+    creditCounts[grade] = 0;
+  }
+
+  const table = document.querySelector(
+    ".table-standard.reflow.ui-panel-content"
+  );
+  const allRows = table.getElementsByTagName("tr");
+
   for (const row of allRows) {
     if (!rowIsInteresting(row)) {
       continue;
@@ -242,15 +278,22 @@ function createAllCheckboxes() {
     checkbox.type = "checkbox";
     checkbox.classList.add("subject-checkbox");
     checkbox.checked = true;
-    checkbox.addEventListener("change", (event) =>
-      checkboxToggeled(row, event.target.checked)
-    );
-
-    firstColumn.appendChild(checkbox);
 
     const subject = row.children[1].children[1].children[0].innerText;
-    checkedSubjects.push(subject);
+    checkbox.title = subject;
+
+    const { grade, credits } = extractGradeAndCreditsFromRow(row);
+    checkbox.addEventListener("change", (event) =>
+      checkboxToggeled(subject, grade, credits, event.target.checked)
+    );
+
+    gradeCounts[grade]++;
+    creditCounts[grade] += credits;
+
+    firstColumn.appendChild(checkbox);
   }
+
+  updateSnittBasedOnGradeCounts();
 }
 
 /**
@@ -276,81 +319,19 @@ function extractGradeAndCreditsFromRow(row) {
 /**
  * Toggles the checkbox for a row and updates the grade and credit counts accordingly.
  *
- * @param {HTMLElement} row The row element containing the checkbox.
+ * @param {string} subject The subject of the row.
+ * @param {string} grade The grade of the row.
+ * @param {number} credits The credits of the row.
  * @param {boolean} toActive Indicates whether the checkbox is being toggled to active or inactive state.
  */
-function checkboxToggeled(row, toActive) {
-  const { grade, credits } = extractGradeAndCreditsFromRow(row);
-
+function checkboxToggeled(subject, grade, credits, toActive) {
   gradeCounts[grade] += toActive ? 1 : -1;
   creditCounts[grade] += toActive ? credits : -credits;
 
-  updateSnittBasedOnGradeCounts();
-}
-
-/**
- * Creates checkboxes for each subject in the given array and attaches event
- * listener to update the average when checkbox is changed.
- *
- * @param {string[]} subjects The subjects to create checkboxes for.
- * @returns {void}
- */
-function createCheckboxes(subjects) {
-  for (const row of allRows) {
-    if (!rowIsInteresting(row)) {
-      continue;
-    }
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-
-    const subject = row.children[1].children[1].children[0].innerText;
-    checkbox.checked = subjects.includes(subject);
-
-    checkbox.addEventListener("change", recountAndUpdateSnitt);
-
-    const firstColumn = row.children[0];
-    firstColumn.appendChild(checkbox);
-  }
-}
-
-/**
- * Updates the average grade based on the selected rows.
- */
-function recountAndUpdateSnitt() {
-  const checkedRows = [];
-  checkedSubjects = [];
-  gradeNames.forEach((grade) => {
-    gradeCounts[grade] = 0;
-    creditCounts[grade] = 0;
-  });
-
-  const tbody = document.querySelector(".ekstraKarakterTabell tbody");
-  while (tbody.children.length > 1) {
-    tbody.children[0].remove();
-  }
-
-  for (const row of allRows) {
-    if (!rowIsInteresting(row)) {
-      continue;
-    }
-    const checkbox = getFirstElementInsideElement(
-      row.children[0],
-      "input",
-      "tag"
-    );
-
-    if (checkbox.checked) {
-      checkedRows.push(row);
-      checkedSubjects.push(row.children[1].children[1].children[0].innerText);
-    }
-  }
-
-  for (const row of checkedRows) {
-    const { grade, credits } = extractGradeAndCreditsFromRow(row);
-
-    gradeCounts[grade]++;
-    creditCounts[grade] += credits;
+  if (chosenSubjects.includes(subject) && !toActive) {
+    chosenSubjects = chosenSubjects.filter((s) => s !== subject);
+  } else if (!chosenSubjects.includes(subject) && toActive) {
+    chosenSubjects.push(subject);
   }
 
   updateSnittBasedOnGradeCounts();
@@ -375,6 +356,7 @@ function updateSnittBasedOnGradeCounts() {
 
   if (sum == 0) {
     snittElement.innerText = "[Ingen emner valgt]";
+    snittElement.title = "-";
     snittBokstavElement.innerText = "-";
   } else {
     const calculatedAverage = sum / total_credits;
@@ -456,8 +438,6 @@ function removeGrade(row) {
 
   row.remove();
 }
-
-recountAndUpdateSnitt();
 
 // UTILITY FUNCTIONS
 
