@@ -3,9 +3,14 @@ name: Upgrade version
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "Version to upgrade to (e.g. '1.1.2')"
+      version_type:
+        type: choice
+        description: "Version bump type"
         required: true
+        options:
+          - "patch"
+          - "minor"
+          - "major"
 
 jobs:
   upgrade:
@@ -23,11 +28,20 @@ jobs:
           python-version: "3.12"
 
       - name: 📦 Upgrade version
-        run: python version-upgrade.py ${{ github.event.inputs.version }}
+        run: python version-upgrade.py ${{ github.event.inputs.version_type }}
         working-directory: .github/scripts
+
+      - name: 🏷️ Extract new version number
+        id: version_extraction
+        run: |
+          NEW_VERSION=$(grep '"version":' manifest.json | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+")
+          echo "NEW_VERSION=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "New version: $NEW_VERSION"
 
       - name: 🤖 Commit and push
         uses: stefanzweifel/git-auto-commit-action@v5
+        env:
+          NEW_VERSION: ${{ steps.version_extraction.outputs.NEW_VERSION }}
         with:
-          commit_message: Upgrade to version ${{ github.event.inputs.version }}
-          tagging_message: "v${{ github.event.inputs.version }}"
+          commit_message: Upgrade to version ${{ env.NEW_VERSION }}
+          tagging_message: "v${{ env.NEW_VERSION }}"
