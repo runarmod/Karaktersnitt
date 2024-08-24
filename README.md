@@ -1,34 +1,26 @@
 # Karaktersnitt for Studentweb
 
-[<img src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png" style='height: 60px; margin-right: 10px;' alt="Avaliable in the Chrome Web Store" />](https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd)
+## Installasjon
 
-[<img src='https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png' alt='Get the add-on for Firefox' style='height: 60px;' />](https://addons.mozilla.org/addon/karaktersnitt-for-studentweb)
-
-[<img src='https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1Mu3b?ver=5c31' alt='Get the add-on for Microsoft Edge' style='height: 60px;' />](https://microsoftedge.microsoft.com/addons/detail/karaktersnitt-for-student/iffeapfmkbcceoflgkkcgoglmodjpbij)
+| | |
+|---|---|
+| [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png" style='height: 50px;' alt="Avaliable in the Chrome Web Store" />](https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd) | Chrome og andre Chromium nettlesere |
+| [<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/1971px-Firefox_logo%2C_2019.svg.png' alt='Get the add-on for Firefox' style='height: 50px;' />](https://addons.mozilla.org/addon/karaktersnitt-for-studentweb) | Firefox |
+| [<img src='https://upload.wikimedia.org/wikipedia/commons/7/7e/Microsoft_Edge_logo_%282019%29.png' alt='Get the add-on for Microsoft Edge' style='height: 50px;' />](https://microsoftedge.microsoft.com/addons/detail/karaktersnitt-for-student/iffeapfmkbcceoflgkkcgoglmodjpbij) | Microsoft Edge |
 
 ## Beskrivelse
 
-Dette er en utvidelse for Firefox, Google Chrome og Microsoft Edge som automatisk regner ut karaktersnittet ditt i studentweb. Det er mulig å velge hvilke emner som skal regnes med i snittet. Utvidelsen er laget for å gjøre det enklere å holde oversikt over karaktersnittet sitt, og for å slippe å regne det ut manuelt. Utvidelsen er laget for å være enkel å bruke, og for å ikke lagre noen data om brukeren.
+Dette er en utvidelse for Firefox, Google Chrome (+ andre Chromium-baserte nettlesere) og Microsoft Edge som automatisk regner ut karaktersnittet ditt i studentweb. Det er mulig å velge hvilke emner som skal/ikke skal regnes med i snittet, samt mulig å legge til nye karakterer for å se hvilke(n) karakter(er) man må ha for å få et visst snitt. Du kan også se antallet av hver karakter du har. Utvidelsen er laget for å gjøre det enklere å holde oversikt over karaktersnittet sitt, og for å slippe å regne det ut manuelt. Utvidelsen har fokus på å være enkel å bruke, og å ikke lagre noen data om brukeren.
+
+Ingen data sendes til noen server, og ingen data lagres lokalt.
 
 ![Eksempel karakterer](assets/example_grades.png)
 
-## Installasjon
-
-### Firefox
-
-Last ned utvidelsen i Firefox ved å gå til [utvidelsessiden](https://addons.mozilla.org/addon/karaktersnitt-for-studentweb/). Trykk på "Add to Firefox" og følg instruksjonene. Utvidelsen vil nå være tilgjengelig i Firefox.
-
-### Google Chrome
-
-Last ned utvidelsen i chrome ved å gå til [utvidelsessiden](https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd). Trykk på "Add to Chrome" og følg instruksjonene. Utvidelsen vil nå være tilgjengelig i Chrome.
-
-### Microsoft Edge
-
-Utvidelsen er også tilgjengelig i Microsoft Edge. Last ned utvidelsen i Edge ved å gå til [utvidelsessiden](https://microsoftedge.microsoft.com/addons/detail/karaktersnitt-for-student/iffeapfmkbcceoflgkkcgoglmodjpbij). Trykk på "Last ned". Utvidelsen vil nå være tilgjengelig i Edge.
-
 ## Bruk
 
-Utvidelsen regner automatisk ut snittet ditt når du er på "Resultater"-siden på Studentweb. Du kan velge hvilke emner som skal regnes med i snittet ved å huke av for emnene du vil ha (eller ikke) med.
+Utvidelsen regner automatisk ut snittet ditt når du er på "Resultater"-siden på Studentweb. Du kan velge hvilke emner som skal regnes med i snittet ved å huke av for emnene du vil ha (eller ikke ha) med.
+
+Legg til nye karakterer ved å fylle inn karakteren og antall studiepoeng, og trykk på "Legg til". Du kan også slette karakterer ved å trykke på "Fjern" ved siden av karakteren.
 
 ## Utvikling
 
@@ -44,7 +36,7 @@ npm install --global web-ext
 web-ext run
 
 # Check for errors/notices/warnings
-web-ext lint
+web-ext lint -w
 
 # Build for production
 web-ext build
