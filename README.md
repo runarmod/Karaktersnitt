@@ -7,6 +7,7 @@
 | [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png" style='height: 50px;' alt="Avaliable in the Chrome Web Store" />](https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd) | [Chrome og andre Chromium nettlesere](https://chromewebstore.google.com/detail/karaktersnitt-for-student/cnfbclbahglengpahopaafpoffahojhd) |
 | [<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/1971px-Firefox_logo%2C_2019.svg.png' alt='Get the add-on for Firefox' style='height: 50px;' />](https://addons.mozilla.org/addon/karaktersnitt-for-studentweb) | [Firefox](https://addons.mozilla.org/addon/karaktersnitt-for-studentweb) |
 | [<img src='https://upload.wikimedia.org/wikipedia/commons/7/7e/Microsoft_Edge_logo_%282019%29.png' alt='Get the add-on for Microsoft Edge' style='height: 50px;' />](https://microsoftedge.microsoft.com/addons/detail/karaktersnitt-for-student/iffeapfmkbcceoflgkkcgoglmodjpbij) | [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/karaktersnitt-for-student/iffeapfmkbcceoflgkkcgoglmodjpbij) |
+| [<img src='https://i.imgur.com/uiM8FjE.png' alt='Other browsers' style='height: 50px;' />](https://karaktersnitt.runarmod.no) | [Andre nettlesere](https://karaktersnitt.runarmod.no) |
 
 ## Beskrivelse
 
