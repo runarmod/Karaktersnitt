@@ -361,7 +361,7 @@ function updateSnittBasedOnGradeCounts() {
   } else {
     const calculatedAverage = sum / total_credits;
 
-    snittElement.innerText = Math.trunc(calculatedAverage * 100) / 100;
+    snittElement.innerText = calculatedAverage.toString().slice(0, 4);
     snittElement.title = calculatedAverage;
 
     snittBokstavElement.innerText =
