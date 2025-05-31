@@ -173,6 +173,7 @@ for (const changeButton of changeButtonsLabels) {
     setTimeout(() => {
       createAllCheckboxes();
       toggleNotChosen();
+      createBoldLines();
     }, 150);
   });
 }
