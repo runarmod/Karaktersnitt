@@ -168,13 +168,15 @@ const changeButtonsLabels = Array.from(changeButtonsTds).map((td) =>
   getFirstElementInsideElement(td, "label", "tag")
 );
 
+const DELAY_MS = 150;
+
 for (const changeButton of changeButtonsLabels) {
   changeButton.addEventListener("click", () => {
     setTimeout(() => {
       createAllCheckboxes();
       toggleNotChosen();
       createBoldLines();
-    }, 150);
+    }, DELAY_MS);
   });
 }
 
@@ -387,7 +389,7 @@ function addGrade() {
 
   const grade =
     gradeInput.value.toLowerCase() === "f" ||
-    gradeInput.value.toLowerCase() === "ikke bestått"
+      gradeInput.value.toLowerCase() === "ikke bestått"
       ? "Ikke bestått"
       : gradeInput.value.toUpperCase();
   const credits = parseFloat(creditsInput.value.replace(",", "."));
