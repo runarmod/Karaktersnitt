@@ -165,7 +165,7 @@ const changeButtonsTds = getElementsInsideElement(
 );
 
 const changeButtonsLabels = Array.from(changeButtonsTds).map((td) =>
-  getFirstElementInsideElement(td, "label", "tag")
+  getFirstElementInsideElement(td, "input", "tag")
 );
 
 const DELAY_MS = 300;
