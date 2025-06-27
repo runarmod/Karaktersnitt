@@ -168,7 +168,7 @@ const changeButtonsLabels = Array.from(changeButtonsTds).map((td) =>
   getFirstElementInsideElement(td, "label", "tag")
 );
 
-const DELAY_MS = 150;
+const DELAY_MS = 300;
 
 for (const changeButton of changeButtonsLabels) {
   changeButton.addEventListener("click", () => {
