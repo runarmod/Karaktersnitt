@@ -363,9 +363,12 @@ function updateSnittBasedOnGradeCounts() {
     snittBokstavElement.innerText = "-";
   } else {
     const calculatedAverage = sum / total_credits;
+    const gcdValue = gcd(sum, total_credits);
+    const numerator = sum / gcdValue;
+    const denominator = total_credits / gcdValue;
 
     snittElement.innerText = calculatedAverage.toString().slice(0, 4);
-    snittElement.title = calculatedAverage;
+    snittElement.title = `${numerator}/${denominator} ≈ ${calculatedAverage}`;
 
     snittBokstavElement.innerText =
       gradeNames[5 - Math.round(calculatedAverage)];
@@ -443,6 +446,29 @@ function removeGrade(row) {
 }
 
 // UTILITY FUNCTIONS
+
+/**
+ * Calculates the greatest common divisor (GCD) of two numbers using the Euclidean algorithm.
+ *
+ * @param {number} a - The first integer.
+ * @param {number} b - The second integer.
+ * @returns {number} The greatest common divisor of a and b.
+ */
+function gcd(a, b) {
+  a = Math.abs(a);
+  b = Math.abs(b);
+  if (b > a) {
+    var temp = a;
+    a = b;
+    b = temp;
+  }
+  while (true) {
+    if (b == 0) return a;
+    a %= b;
+    if (a == 0) return b;
+    b %= a;
+  }
+}
 
 /**
  * Retrieves the first element inside a given element based on the specified name and type.
