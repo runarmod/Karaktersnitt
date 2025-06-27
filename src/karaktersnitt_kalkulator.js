@@ -346,10 +346,10 @@ function updateSnittBasedOnGradeCounts() {
   }
 
   let sum = 0;
-  let total_credits = 0;
+  let totalCredits = 0;
   gradeNames.forEach((grade) => {
     sum += (5 - gradeNames.indexOf(grade)) * creditCounts[grade];
-    total_credits += creditCounts[grade];
+    totalCredits += creditCounts[grade];
   });
 
   let numberOfGrades = 0;
@@ -357,15 +357,15 @@ function updateSnittBasedOnGradeCounts() {
     numberOfGrades += gradeCounts[grade];
   });
 
-  if (sum == 0) {
+  if (totalCredits == 0) {
     snittElement.innerText = "[Ingen emner valgt]";
     snittElement.title = "-";
     snittBokstavElement.innerText = "-";
   } else {
-    const calculatedAverage = sum / total_credits;
-    const gcdValue = gcd(sum, total_credits);
+    const calculatedAverage = sum / totalCredits;
+    const gcdValue = gcd(sum, totalCredits);
     const numerator = sum / gcdValue;
-    const denominator = total_credits / gcdValue;
+    const denominator = totalCredits / gcdValue;
 
     snittElement.innerText = calculatedAverage.toString().slice(0, 4);
     snittElement.title = `${numerator}/${denominator} ≈ ${calculatedAverage}`;
