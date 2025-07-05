@@ -52,16 +52,16 @@ jobs:
       - name: 🔄 Checkout
         uses: actions/checkout@v4
 
-      - name: 🟢 Set up Node.js
-        uses: actions/setup-node@v4
+      - name: 📥 Download artifact
+        uses: actions/download-artifact@v4
+
+      - name: 🚀 Publish to Firefox
+        uses: wdzeng/firefox-addon@v1
         with:
-          node-version: "latest"
-
-      - name: ⚙️ Install web-ext
-        run: npm install -g web-ext
-
-      - name: 🚀 Sign and publish to Firefox
-        run: web-ext sign --api-key=${{ secrets.FIREFOX_API_KEY }} --api-secret=${{ secrets.FIREFOX_API_SECRET }} --channel=listed --approval-timeout=0 --timeout=600000
+          addon-guid: "{ed445e9e-ee55-4a38-9692-83a6012845d0}"
+          xpi-path: web-ext-artifacts/latest.zip
+          jwt-issuer: ${{ secrets.FIREFOX_API_KEY }}
+          jwt-secret: ${{ secrets.FIREFOX_API_SECRET }}
 
   publish-chrome:
     # prevents this action from running on forks
