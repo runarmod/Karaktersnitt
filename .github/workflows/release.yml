@@ -101,16 +101,13 @@ jobs:
       - name: 🔄 Checkout
         uses: actions/checkout@v4
 
-      - name: 🟢 Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "latest"
-
       - name: 📥 Download artifact
         uses: actions/download-artifact@v4
 
-      - name: ⚙️ Install edge-addons-upload-cli
-        run: npm install -g edge-addons-upload-cli
-
       - name: 🚀 Publish to Edge
-        run: npx edge-addons-upload-cli upload --autoPublish --source web-ext-artifacts/latest.zip --product-id ${{ secrets.EDGE_PRODUCT_ID }} --client-id ${{ secrets.EDGE_CLIENT_ID }} --client-secret ${{ secrets.EDGE_CLIENT_SECRET }} --access-token-url ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
+        uses: wdzeng/edge-addon@v2
+        with:
+          product-id: ${{ secrets.EDGE_PRODUCT_ID }}
+          zip-path: web-ext-artifacts/latest.zip
+          api-key: ${{ secrets.EDGE_API_KEY }}
+          client-id: ${{ secrets.EDGE_CLIENT_ID }}
