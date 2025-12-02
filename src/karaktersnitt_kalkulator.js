@@ -62,7 +62,7 @@ document.getElementById("mineResultaterTittel").innerHTML = `
       <tbody>
         <tr id="form">
           <td><input type="text" /></td>
-          <td><input type="number" min="1" max="30" step="0.5" /></td>
+          <td><input type="number" min="1" max="30" step="0.5" value="7.5" /></td>
           <td><button id="addButton" class="leggtil">Legg til</button></td>
         </tr>
       </tbody>
@@ -407,7 +407,6 @@ function addGrade() {
   }
 
   gradeInput.value = "";
-  creditsInput.value = "";
 
   const tbody = document.querySelector(".ekstraKarakterTabell tbody");
   const formRow = document.getElementById("form");
