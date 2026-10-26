@@ -3,7 +3,7 @@
 export const ignoreFiles = [
   "config.js",
   "assets/example_*.png",
-  "asserts/icon.svg",
+  "assets/icon.svg",
   "README.md",
   ".env",
   "renovate.json",
