@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🔄 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: 🟢 Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "latest"
+          node-version: "lts/*"
 
       - name: ⚙️ Install web-ext
         run: npm install -g web-ext
@@ -29,13 +29,13 @@ jobs:
           cp web-ext-artifacts/*.zip latest.zip
 
       - name: 📦 Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: web-ext-artifacts
           path: latest.zip
 
       - name: 🚀 Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           token: ${{ secrets.TOKEN }}
           generate_release_notes: true
@@ -50,10 +50,10 @@ jobs:
     needs: release
     steps:
       - name: 🔄 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: 📥 Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
 
       - name: 🚀 Publish to Firefox
         uses: wdzeng/firefox-addon@v1
@@ -71,15 +71,15 @@ jobs:
     needs: release
     steps:
       - name: 🔄 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: 🟢 Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "latest"
+          node-version: "lts/*"
 
       - name: 📥 Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
 
       - name: 🚀 Publish to Chrome
         run: |
@@ -99,10 +99,10 @@ jobs:
     needs: release
     steps:
       - name: 🔄 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: 📥 Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
 
       - name: 🚀 Publish to Edge
         uses: wdzeng/edge-addon@v2
