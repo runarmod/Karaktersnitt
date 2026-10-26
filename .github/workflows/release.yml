@@ -54,6 +54,9 @@ jobs:
 
       - name: 📥 Download artifact
         uses: actions/download-artifact@v8
+        with:
+          name: web-ext-artifacts
+          path: web-ext-artifacts
 
       - name: 🚀 Publish to Firefox
         uses: wdzeng/firefox-addon@v1
@@ -75,6 +78,9 @@ jobs:
 
       - name: 📥 Download artifact
         uses: actions/download-artifact@v8
+        with:
+          name: web-ext-artifacts
+          path: web-ext-artifacts
 
       - name: 🚀 Publish to Chrome
         uses: wdzeng/chrome-extension@v2
@@ -98,6 +104,9 @@ jobs:
 
       - name: 📥 Download artifact
         uses: actions/download-artifact@v8
+        with:
+          name: web-ext-artifacts
+          path: web-ext-artifacts
 
       - name: 🚀 Publish to Edge
         uses: wdzeng/edge-addon@v2
