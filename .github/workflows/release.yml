@@ -102,7 +102,7 @@ jobs:
       - name: 🚀 Publish to Edge
         uses: wdzeng/edge-addon@v2
         with:
-          product-id: ${{ secrets.EDGE_PRODUCT_ID }}
+          product-id: c8bdd961-90a7-4635-88a7-8199e6224414
           zip-path: web-ext-artifacts/latest.zip
           api-key: ${{ secrets.EDGE_API_KEY }}
           client-id: ${{ secrets.EDGE_CLIENT_ID }}
