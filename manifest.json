@@ -27,7 +27,10 @@
 
   "content_scripts": [
     {
-      "matches": ["*://fsweb.no/studentweb/resultater.jsf*"],
+      "matches": [
+        "*://fsweb.no/studentweb/resultater.jsf*",
+        "*://studentweb.uio.no/studentweb/resultater.jsf*"
+      ],
       "js": ["src/karaktersnitt_kalkulator.js"]
     }
   ]
