@@ -18,7 +18,7 @@ jobs:
       - name: 🟢 Set up Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: "latest"
+          node-version: "lts/*"
 
       - name: ⚙️ Install web-ext
         run: npm install -g web-ext
@@ -76,7 +76,7 @@ jobs:
       - name: 🟢 Set up Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: "latest"
+          node-version: "lts/*"
 
       - name: 📥 Download artifact
         uses: actions/download-artifact@v8
