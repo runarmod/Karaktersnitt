@@ -18,12 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🔄 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.TOKEN }}
 
       - name: 🐍 Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -39,7 +39,7 @@ jobs:
           echo "New version: $NEW_VERSION"
 
       - name: 🤖 Commit and push
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         env:
           NEW_VERSION: ${{ steps.version_extraction.outputs.NEW_VERSION }}
         with:
