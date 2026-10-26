@@ -73,23 +73,18 @@ jobs:
       - name: 🔄 Checkout
         uses: actions/checkout@v7
 
-      - name: 🟢 Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: "lts/*"
-
       - name: 📥 Download artifact
         uses: actions/download-artifact@v8
 
       - name: 🚀 Publish to Chrome
-        run: |
-          npm install -g chrome-webstore-upload-cli
-          npx chrome-webstore-upload-cli --source=web-ext-artifacts/latest.zip
-        env:
-          EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
-          CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
-          REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        uses: wdzeng/chrome-extension@v2
+        with:
+          extension-id: cnfbclbahglengpahopaafpoffahojhd
+          zip-path: web-ext-artifacts/latest.zip
+          publisher-id: ${{ secrets.CHROME_PUBLISHER_ID }}
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
   publish-edge:
     # prevents this action from running on forks
