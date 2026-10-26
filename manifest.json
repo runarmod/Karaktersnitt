@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Karaktersnitt for Studentweb",
   "short_name": "Karaktersnitt",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Regner automatisk ut karaktersnitt på Studentweb.",
   "homepage_url": "https://github.com/runarmod/Karaktersnitt",
 
