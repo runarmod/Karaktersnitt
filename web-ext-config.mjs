@@ -6,4 +6,5 @@ export const ignoreFiles = [
   "asserts/icon.svg",
   "README.md",
   ".env",
+  "renovate.json",
 ];
